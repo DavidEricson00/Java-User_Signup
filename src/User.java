@@ -37,4 +37,24 @@ public class User {
 	public String toString() {
 		return "User [name=" + name + ", age=" + age + ", email=" + email + "]";
 	}
+	
+	
+	// Exceptions
+	public class InvalidNameException extends Exception {
+	    public InvalidNameException(String message) {
+	        super(message);
+	    }
+	}
+	
+	public class InvalidAgeException extends Exception {
+	    public InvalidAgeException(String message) {
+	        super(message);
+	    }
+	}
+	
+	public class InvalidEmailException extends Exception {
+	    public InvalidEmailException(String message) {
+	        super(message);
+	    }
+	}
 }

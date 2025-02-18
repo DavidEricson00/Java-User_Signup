@@ -47,11 +47,27 @@ public class UserSignup {
         Scanner input = new Scanner(System.in);
         int option;
 
-        displayMenu();
+        do {
+            displayMenu();
+            System.out.print("Enter the option: ");
+            option = input.nextInt();
+            input.nextLine();
+            
+            switch (option) {
+                case 1:
+                    signUpUser(input);
+                    break;
+                case 2:
+                    System.out.println("You chose: List signed-up users");
+                    break;
+                case 3:
+                    System.out.println("Exiting the system...");
+                    break;
+                default:
+                    System.out.println("Invalid option! Please try again.");
+            }
+        } while (option != 3);
 
-        System.out.print("Enter the option: ");
-        option = input.nextInt();
-        
         input.close();
     }
 }

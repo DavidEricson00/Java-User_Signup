@@ -12,42 +12,32 @@ public class UserSignup {
         System.out.println("3. Exit");
     }
 
-    public static void signUpUser(Scanner input) {
-        try {
-            System.out.print("Enter your name: ");
-            String name = input.nextLine();
-            if (name == null || name.trim().isEmpty()) {
-                throw new User.InvalidNameException("Name cannot be empty or null.");
-            }
-
-            System.out.print("Enter your age: ");
-            int age = Integer.parseInt(input.nextLine());
-            if (age < 0 || age > 120) {
-                throw new User.InvalidAgeException("Age must be between 0 and 120.");
-            }
-
-            System.out.print("Enter your email: ");
-            String email = input.nextLine();
-            if (!email.matches("^[A-Za-z0-9+_.-]+@(.+)$")) {
-                throw new User.InvalidEmailException("Invalid email format.");
-            }
-
-            User user = new User(name, age, email);
-            users.add(user);
-            System.out.println("\nUser signed up successfully!");
-            System.out.println("  Name : " + name);
-            System.out.println("  Age  : " + age);
-            System.out.println("  Email: " + email + "\n");
-
-        } catch (User.InvalidNameException e) {
-            System.err.println("Error: " + e.getMessage());
-        } catch (User.InvalidAgeException e) {
-            System.err.println("Error: " + e.getMessage());
-        } catch (User.InvalidEmailException e) {
-            System.err.println("Error: " + e.getMessage());
-        } catch (NumberFormatException e) {
-            System.err.println("Error: Invalid age format. Please enter a number.");
+    public static void signUpUser(Scanner input) 
+    throws User.InvalidNameException, User.InvalidAgeException, User.InvalidEmailException, NumberFormatException {
+        System.out.print("Enter your name: ");
+        String name = input.nextLine();
+        if (name == null || name.trim().isEmpty()) {
+            throw new User.InvalidNameException("Name cannot be empty or null.");
         }
+
+        System.out.print("Enter your age: ");
+        int age = Integer.parseInt(input.nextLine());
+        if (age < 0 || age > 120) {
+            throw new User.InvalidAgeException("Age must be between 0 and 120.");
+        }
+
+        System.out.print("Enter your email: ");
+        String email = input.nextLine();
+        if (!email.matches("^[A-Za-z0-9+_.-]+@(.+)$")) {
+            throw new User.InvalidEmailException("Invalid email format.");
+        }
+
+        User user = new User(name, age, email);
+        users.add(user);
+        System.out.println("\nUser signed up successfully!");
+        System.out.println("  Name : " + name);
+        System.out.println("  Age  : " + age);
+        System.out.println("  Email: " + email + "\n");
     }
 
     public static void listUsers() {
@@ -76,7 +66,13 @@ public class UserSignup {
 
                 switch (option) {
                     case 1:
-                        signUpUser(input);
+                        try {
+                            signUpUser(input);
+                        } catch (User.InvalidNameException | User.InvalidAgeException | User.InvalidEmailException e) {
+                            System.err.println("Error: " + e.getMessage());
+                        } catch (NumberFormatException e) {
+                            System.err.println("Error: Invalid age format. Please enter a number.");
+                        }
                         break;
                     case 2:
                         listUsers();

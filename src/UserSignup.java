@@ -1,6 +1,10 @@
+import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class UserSignup {
+    static ArrayList<User> users = new ArrayList<>();
+
     public static void displayMenu() {
         System.out.println("\n--- MAIN MENU ---");
         System.out.println("1. Sign up user");
@@ -29,7 +33,11 @@ public class UserSignup {
             }
 
             User user = new User(name, age, email);
-            System.out.println("User signed up successfully: " + user);
+            users.add(user);
+            System.out.println("\nUser signed up successfully!");
+            System.out.println("  Name : " + name);
+            System.out.println("  Age  : " + age);
+            System.out.println("  Email: " + email + "\n");
 
         } catch (User.InvalidNameException e) {
             System.err.println("Error: " + e.getMessage());
@@ -40,6 +48,19 @@ public class UserSignup {
         } catch (NumberFormatException e) {
             System.err.println("Error: Invalid age format. Please enter a number.");
         }
+    }
+
+    public static void listUsers() {
+        if (users.isEmpty()) {
+            System.out.println("\nNo users have signed up yet.");
+        } else {
+            System.out.println("\n--- List of Signed-up Users ---");
+            for (int i = 0; i < users.size(); i++) {
+                User user = users.get(i);
+                System.out.println((i + 1) + ". " + user.getName() + " | Age: " + user.getAge() + " | Email: " + user.getEmail());
+            }
+        }
+        System.out.println();
     }
 
     public static void main(String[] args) {
@@ -57,6 +78,8 @@ public class UserSignup {
                     case 1:
                         signUpUser(input);
                         break;
+                    case 2:
+                        listUsers();
                         break;
                     case 3:
                         System.out.println("Exiting the system...");

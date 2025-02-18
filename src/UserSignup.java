@@ -1,6 +1,9 @@
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.FileReader;
 
 public class UserSignup {
     static ArrayList<User> users = new ArrayList<>();
@@ -9,7 +12,9 @@ public class UserSignup {
         System.out.println("\n--- MAIN MENU ---");
         System.out.println("1. Sign up user");
         System.out.println("2. List signed-up users");
-        System.out.println("3. Exit");
+        System.out.println("3. Load data");
+        System.out.println("4. Save data");
+        System.out.println("5. Exit");
     }
 
     public static void signUpUser(Scanner input) 
@@ -56,6 +61,25 @@ public class UserSignup {
         }
         System.out.println();
     }
+    
+    public static void loadData() 
+    throws IOException, User.InvalidNameException, User.InvalidAgeException, User.InvalidEmailException {
+        try (BufferedReader reader = new BufferedReader(new FileReader("users.txt"))) {
+            String line;
+            users.clear();
+            while ((line = reader.readLine()) != null) {
+                String[] userData = line.split(",");
+                if (userData.length == 3) {
+                    String name = userData[0];
+                    int age = Integer.parseInt(userData[1]);
+                    String email = userData[2];
+                    User user = new User(name, age, email);
+                    users.add(user);
+                }
+            }
+            System.out.println("Users loaded from file successfully.");
+        }
+    }
 
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
@@ -82,8 +106,14 @@ public class UserSignup {
                         listUsers();
                         break;
                     case 3:
+                    	loadData();
+                        break; 
+                    case 4:
+                    	loadData();
+                        break; 
+                    case 5:
                         System.out.println("Exiting the system...");
-                        break;
+                        break; 
                     default:
                         System.out.println("Invalid option! Please try again.");
                 }
@@ -92,10 +122,10 @@ public class UserSignup {
                 input.nextLine();
                 option = 0;
             } finally {
-                if (option != 3)
+                if (option != 5)
                     System.out.println("Returning to main menu...\n");
             }
-        } while (option != 3);
+        } while (option != 5);
 
         input.close();
     }

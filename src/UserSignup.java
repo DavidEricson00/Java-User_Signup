@@ -4,6 +4,7 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.FileWriter;
 
 public class UserSignup {
     static ArrayList<User> users = new ArrayList<>();
@@ -81,6 +82,15 @@ public class UserSignup {
         }
     }
 
+    public static void saveData() throws IOException {
+        try (FileWriter writer = new FileWriter("users.txt")) {
+            for (User user : users) {
+                writer.write(user.getName() + "," + user.getAge() + "," + user.getEmail() + "\n");
+            }
+            System.out.println("Users saved to file successfully.");
+        }
+    }
+
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
         int option = 0;
@@ -102,9 +112,11 @@ public class UserSignup {
                             System.err.println("Error: " + e.getMessage());
                         }
                         break;
+                        
                     case 2:
                         listUsers();
                         break;
+                        
                     case 3:
                     	try {
                         	loadData();
@@ -114,9 +126,15 @@ public class UserSignup {
                             System.err.println("Error: Invalid data in file - " + e.getMessage());
                         }
                         break;
+                        
                     case 4:
-                    	loadData();
-                        break; 
+                    	try {
+                        	saveData();
+                    	} catch (IOException e) {
+                            System.err.println("Error saving users to file: " + e.getMessage());
+                        }
+                        break;
+                        
                     case 5:
                         System.out.println("Exiting the system...");
                         break; 

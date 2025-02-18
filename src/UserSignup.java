@@ -106,8 +106,14 @@ public class UserSignup {
                         listUsers();
                         break;
                     case 3:
-                    	loadData();
-                        break; 
+                    	try {
+                        	loadData();
+                        } catch (IOException e) {
+                            System.err.println("Error loading users from file: " + e.getMessage());
+                        } catch (User.InvalidNameException | User.InvalidAgeException | User.InvalidEmailException e) {
+                            System.err.println("Error: Invalid data in file - " + e.getMessage());
+                        }
+                        break;
                     case 4:
                     	loadData();
                         break; 

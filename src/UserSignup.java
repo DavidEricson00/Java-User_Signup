@@ -8,7 +8,6 @@ public class UserSignup {
         System.out.println("3. Exit");
     }
 
-    
     public static void signUpUser(Scanner input) {
         try {
             System.out.print("Enter your name: ");
@@ -45,26 +44,33 @@ public class UserSignup {
 
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
-        int option;
+        int option = 0;
 
         do {
-            displayMenu();
-            System.out.print("Enter the option: ");
-            option = input.nextInt();
-            input.nextLine();
-            
-            switch (option) {
-                case 1:
-                    signUpUser(input);
-                    break;
-                case 2:
-                    System.out.println("You chose: List signed-up users");
-                    break;
-                case 3:
-                    System.out.println("Exiting the system...");
-                    break;
-                default:
-                    System.out.println("Invalid option! Please try again.");
+            try {
+                displayMenu();
+                System.out.print("Enter the option: ");
+                option = input.nextInt();
+                input.nextLine();
+
+                switch (option) {
+                    case 1:
+                        signUpUser(input);
+                        break;
+                        break;
+                    case 3:
+                        System.out.println("Exiting the system...");
+                        break;
+                    default:
+                        System.out.println("Invalid option! Please try again.");
+                }
+            } catch (InputMismatchException e) {
+                System.err.println("Error: Please enter a number.");
+                input.nextLine();
+                option = 0;
+            } finally {
+                if (option != 3)
+                    System.out.println("Returning to main menu...\n");
             }
         } while (option != 3);
 
